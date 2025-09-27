@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bloc2/bloc_state_feature/domain/entity/get_product_response.dart';
 import 'package:bloc2/bloc_state_feature/presentation/bloc/get_products_bloc/get_products_bloc.dart';
 import 'package:bloc2/router/router_imports.gr.dart';
+import 'package:bloc2/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,9 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   final List<Widget> _pages = [
     const ProductList(),
-    const Center(child: Text("Search")),
-    const Center(child: Text("Profile")),
-    const Center(child: Text("Settings")),
+     Center(child: Text("Search", style: AppTheme.lightTheme.textTheme.bodySmall)),
+    Center(child: Text("Profile",style: AppTheme.lightTheme.textTheme.bodySmall)),
+     Center(child: Text("Settings",style: AppTheme.lightTheme.textTheme.bodySmall)),
   ];
 
   final List<Map<String, dynamic>> _navItems = [
@@ -80,7 +81,11 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(height: 4),
           Text(
             label,
-            style: TextStyle(
+            // style: TextStyle(
+            //   color: isSelected ? Colors.deepPurple : Colors.grey,
+            //   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            // ),
+            style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
               color: isSelected ? Colors.deepPurple : Colors.grey,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             ),
@@ -99,11 +104,14 @@ class ProductList extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'Products',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.headlineLarge,
         ),
-        actions: [Icon(Icons.shopping_cart), SizedBox(width: 10)],
+        actions: [
+          Icon(Icons.shopping_cart),
+          SizedBox(width: AppTheme.spacingS),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -142,7 +150,7 @@ class ProductLists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(AppTheme.spacingS),
       child: GestureDetector(
         onTap: () {
           AutoRouter.of(
@@ -153,7 +161,7 @@ class ProductLists extends StatelessWidget {
           // padding: EdgeInsets.all(1),
           decoration: BoxDecoration(
             // color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(AppTheme.spacingS),
           ),
           child: Column(
             children: [
@@ -162,21 +170,17 @@ class ProductLists extends StatelessWidget {
                   Container(
                     height: 70,
                     width: 70,
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(AppTheme.spacingS),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(AppTheme.spacingS),
                       color: const Color.fromARGB(255, 207, 201, 201),
-                      // image: DecorationImage(
-                      //   fit: BoxFit.cover,
-                      //   image: NetworkImage(product.image ?? ''),
-                      // ),
                     ),
                     child: Hero(
                       tag: product.id ?? '',
                       child: Image.network(product.image ?? ''),
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: AppTheme.spacingS),
                   Expanded(
                     flex: 10,
                     child: Column(
@@ -187,20 +191,18 @@ class ProductLists extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
                         ),
                         Text(
                           product.category ?? '',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ],
                     ),
@@ -210,17 +212,16 @@ class ProductLists extends StatelessWidget {
                     alignment: Alignment.center,
                     child: Text(
                       '\$${product.price}',
-                      style: const TextStyle(
-                        fontSize: 16,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: AppTheme.spacingXS),
                 ],
               ),
-              const SizedBox(height: 5),
+              SizedBox(height: AppTheme.spacingXS),
               Divider(color: Colors.grey.shade400),
             ],
           ),
