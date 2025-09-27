@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import '../../../utils/app_theme.dart';
 import '../../domain/entity/get_product_response.dart';
 
 @RoutePage()
@@ -15,19 +16,19 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
- 
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal: AppTheme.spacingM),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 60),
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   AutoRouter.of(context).pop();
                 },
-                child: Icon(Icons.arrow_back)),
+                child: Icon(Icons.arrow_back),
+              ),
               Center(
                 child: SizedBox(
                   height: 300,
@@ -40,42 +41,42 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: AppTheme.spacingS),
               Text(
                 widget.product.category.toString(),
-                style: TextStyle(
-                  fontSize: 20,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: Colors.green,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: AppTheme.spacingS),
               Text(
                 widget.product.title.toString(),
-                style: TextStyle(
-                  fontSize: 22,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: AppTheme.spacingS),
               Row(
                 children: [
                   Icon(Icons.star),
-                  Text('4.5 (120 reviews)', style: TextStyle(fontSize: 16)),
+                  Text(
+                    '4.5 (120 reviews)',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: AppTheme.spacingS),
               Text(
                 widget.product.description.toString(),
                 textAlign: TextAlign.justify,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.normal,
-                  color: Colors.black,
-                ),
+                style: Theme.of(context).textTheme.bodySmall,
               ),
-          
+
               // productDetails(
               //   'Product Name',
               //   widget.product.title.toString(),
