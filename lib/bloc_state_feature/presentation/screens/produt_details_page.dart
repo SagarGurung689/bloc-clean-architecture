@@ -22,7 +22,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 60),
+              SizedBox(height: AppTheme.spacingXL),
+              SizedBox(height: AppTheme.spacingXL),
               GestureDetector(
                 onTap: () {
                   AutoRouter.of(context).pop();
