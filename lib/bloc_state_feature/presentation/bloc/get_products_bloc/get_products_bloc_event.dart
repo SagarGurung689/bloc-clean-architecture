@@ -1,12 +1,8 @@
-part of 'get_products_bloc_bloc.dart';
 
-abstract class GetProductsBlocEvent extends Equatable {
-  const GetProductsBlocEvent();
 
-  @override
-  List<Object> get props => [];
-}
-final class GetProductsEvent extends GetProductsBlocEvent {
-  @override
-  List<Object> get props => [];
+part of 'get_products_bloc.dart';
+
+@freezed
+class GetProductsEvent with _$GetProductsEvent {
+  const factory GetProductsEvent.fetchProducts() = _FetchProducts;
 }

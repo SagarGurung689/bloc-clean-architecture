@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bloc2/bloc_state_feature/domain/entity/get_product_response.dart';
-import 'package:bloc2/bloc_state_feature/presentation/bloc/get_products_bloc/get_products_bloc_bloc.dart';
+import 'package:bloc2/bloc_state_feature/presentation/bloc/get_products_bloc/get_products_bloc.dart';
 import 'package:bloc2/router/router_imports.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,8 +17,82 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<GetProductsBlocBloc>().add(GetProductsEvent());
+    context.read<GetProductsBloc>().add(GetProductsEvent.fetchProducts());
   }
+
+  bool isLoading = false;
+
+  // for custom bottom navigation bar
+  int _selectedIndex = 0;
+  final List<Widget> _pages = [
+    const ProductList(),
+    const Center(child: Text("Search")),
+    const Center(child: Text("Profile")),
+    const Center(child: Text("Settings")),
+  ];
+
+  final List<Map<String, dynamic>> _navItems = [
+    {"icon": Icons.home, "label": "Home"},
+    {"icon": Icons.search, "label": "Search"},
+    {"icon": Icons.person, "label": "Profile"},
+    {"icon": Icons.settings, "label": "Settings"},
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() => _selectedIndex = index);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: const [
+              BoxShadow(color: Colors.black12, blurRadius: 10, spreadRadius: 2),
+            ],
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: List.generate(_navItems.length, (index) {
+              final item = _navItems[index];
+              return _buildNavItem(item["icon"], item["label"], index);
+            }),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNavItem(IconData icon, String label, int index) {
+    final isSelected = _selectedIndex == index;
+    return GestureDetector(
+      onTap: () => _onItemTapped(index),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: isSelected ? Colors.deepPurple : Colors.grey),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              color: isSelected ? Colors.deepPurple : Colors.grey,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ProductList extends StatelessWidget {
+  const ProductList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,24 +107,22 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          context.read<GetProductsBlocBloc>().add(GetProductsEvent());
+          context.read<GetProductsBloc>().add(GetProductsEvent.fetchProducts());
         },
-        child: BlocBuilder<GetProductsBlocBloc, GetProductsBlocState>(
+        child: BlocBuilder<GetProductsBloc, GetProductsState>(
           builder: (context, state) {
-            if (state is GetProductsBlocLoading) {
-              return const Center(child: CircularProgressIndicator.adaptive());
-            } else if (state is GetProductsBlocError) {
-              return Center(child: Text(state.message));
-            } else if (state is GetProductsBlocLoaded) {
-              return ListView.builder(
-                itemCount: state.products.length,
-                itemBuilder: (context, index) {
-                  final product = state.products[index];
-                  return ProductList(product: product, context: context);
-                },
-              );
-            }
-            return Container();
+            return state.when(
+              initial: () =>
+                  const Center(child: CircularProgressIndicator.adaptive()),
+              loading: () =>
+                  Center(child: const CircularProgressIndicator.adaptive()),
+              loaded: (products) => ListView.builder(
+                itemCount: products.length,
+                itemBuilder: (context, i) =>
+                    ProductLists(product: products[i], context: context),
+              ),
+              error: (msg) => Text('Error : $msg'),
+            );
           },
         ),
       ),
@@ -58,8 +130,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class ProductList extends StatelessWidget {
-  const ProductList({
+class ProductLists extends StatelessWidget {
+  const ProductLists({
     super.key,
     required this.product,
     required BuildContext context,

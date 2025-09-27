@@ -1,7 +1,7 @@
 import 'package:bloc2/bloc_state_feature/data/data_source/product_remote_data_source.dart';
 import 'package:bloc2/bloc_state_feature/data/repository/produt_repository_impl.dart';
 import 'package:bloc2/bloc_state_feature/domain/repository/product_repository.dart';
-import 'package:bloc2/bloc_state_feature/presentation/bloc/get_products_bloc/get_products_bloc_bloc.dart';
+import 'package:bloc2/bloc_state_feature/presentation/bloc/get_products_bloc/get_products_bloc.dart';
 import 'package:bloc2/data_client/api_client.dart';
 import 'package:bloc2/data_client/dio_interceptor.dart';
 import 'package:bloc2/data_client/nework_info.dart';
@@ -48,7 +48,7 @@ void setup() {
     ),
   );
 
-  getIt.registerSingleton<GetProductsBlocBloc>(
-    GetProductsBlocBloc(getIt<ProductRepository>()),
+  getIt.registerSingleton<GetProductsBloc>(
+    GetProductsBloc(getIt<ProductRepository>()),
   );
 }

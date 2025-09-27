@@ -1,4 +1,4 @@
-import 'package:bloc2/bloc_state_feature/presentation/bloc/get_products_bloc/get_products_bloc_bloc.dart';
+import 'package:bloc2/bloc_state_feature/presentation/bloc/get_products_bloc/get_products_bloc.dart';
 import 'package:bloc2/router/router_imports.dart';
 import 'package:bloc2/utils/injection.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => getIt<GetProductsBlocBloc>())],
+      providers: [BlocProvider(create: (_) => getIt<GetProductsBloc>())],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
