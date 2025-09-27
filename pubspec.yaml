@@ -45,6 +45,7 @@ dependencies:
   freezed_annotation: ^3.1.0
   json_annotation: ^4.9.0
   eitherx: ^2.0.1
+  hidable: ^1.0.6
 
  
 
