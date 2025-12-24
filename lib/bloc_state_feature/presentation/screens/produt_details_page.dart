@@ -77,13 +77,15 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 textAlign: TextAlign.justify,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
+  //:               Text('hello world'),
 
-              // productDetails(
-              //   'Product Name',
-              //   widget.product.title.toString(),
-              //   widget.product.image.toString(),
-              //   widget.product.id ?? 0,
-              // ),
+
+                      // productDetails(
+                      //   'Product Name',
+                    //   widget.product.title.toString(),
+                    //   widget.product.image.toString(),
+                    //   widget.product.id ?? 0,
+                    // ),
             ],
           ),
         ),
@@ -91,6 +93,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     );
   }
 
+  
   Widget productDetails(String title, String value, String image, int id) {
     return Column(
       children: [

@@ -30,7 +30,7 @@ class _MyAppState extends State<MyApp> {
     _appRouter = getIt<AppRouter>();
   }
 
-  @override
+   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [BlocProvider(create: (_) => getIt<GetProductsBloc>())],
@@ -39,7 +39,10 @@ class _MyAppState extends State<MyApp> {
         title: 'Flutter Demo',
         theme: AppTheme.lightTheme,
         routerConfig: _appRouter.config(),
+
       ),
     );
   }
 }
+
+
